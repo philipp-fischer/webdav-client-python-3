@@ -92,7 +92,7 @@ class Client(object):
         'move': ["Accept: */*"],
         'mkdir': ["Accept: */*", "Connection: Keep-Alive"],
         'clean': ["Accept: */*", "Connection: Keep-Alive"],
-        'check': ["Accept: */*"],
+        'check': ["Accept: */*", "Depth: 0"],
         'info': ["Accept: */*", "Depth: 1"],
         'get_property': ["Accept: */*", "Depth: 1", "Content-Type: application/x-www-form-urlencoded"],
         'set_property': ["Accept: */*", "Depth: 1", "Content-Type: application/x-www-form-urlencoded"]
@@ -107,7 +107,7 @@ class Client(object):
         'move': "MOVE",
         'mkdir': "MKCOL",
         'clean': "DELETE",
-        'check': "HEAD",
+        'check': "PROPFIND",
         'list': "PROPFIND",
         'free': "PROPFIND",
         'info': "PROPFIND",
@@ -306,7 +306,7 @@ class Client(object):
         except RemoteResourceNotFound:
             return False
 
-        if int(response.status_code) == 200:
+        if int(response.status_code) == 200 or int(response.status_code) == 207:
             return True
         return False
 
